@@ -1,7 +1,9 @@
+
 import data
 import build_data
 import unittest
 
+import hw3
 
 # These two values are defined to support testing below. The
 # data within these structures should not be modified. Doing
@@ -179,30 +181,534 @@ class TestCases(unittest.TestCase):
     pass
 
     # Part 1
-    # test population_total
+    def test_population_total_1(self):
+        counties = full_data
+        result = hw3.population_total(counties)
+        expected = 318857056
+        self.assertEqual(result, expected)
+    def test_population_total_2(self):
+        counties = reduced_data
+        result = hw3.population_total(counties)
+        expected = 655813
+        self.assertEqual(result, expected)
 
     # Part 2
-    # test filter_by_state
+    def test_filter_by_state_1(self):
+        counties = full_data
+        state = "CA"
+        result = hw3.filter_by_state(counties, state)
+        self.assertEqual(len(result), 58)
+
+    def test_filter_by_state_2(self):
+        counties = full_data
+        state = "CA"
+        result = hw3.filter_by_state(counties, state)
+        self.assertEqual(hw3.population_total(result), 38802500)
+
+    def test_filter_by_state_3(self):
+        counties = reduced_data
+        state = "CA"
+        result = hw3.filter_by_state(counties, state)
+        self.assertEqual(len(result), 2)
 
     # Part 3
     # test population_by_education
+    def test_population_by_education_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ed_level = "Bachelor's Degree or Higher"
+        result = hw3.population_by_education(counties, ed_level)
+        expected = 11577.555
+        self.assertEqual(result, expected)
+
+    def test_population_by_education_2(self):
+        counties = reduced_data
+        ed_level = "Bachelor's Degree or Higher"
+        result = hw3.population_by_education(counties, ed_level)
+        expected = 195114.09100000001
+        self.assertEqual(result, expected)
+
+    def test_population_by_education_3(self):
+        counties = reduced_data
+        ed_level = "Grad School"
+        result = hw3.population_by_education(counties, ed_level)
+        expected = 0
+        self.assertEqual(result, expected)
     # test population_by_ethnicity
+    def test_population_by_ethnicity_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ethnicity = "Asian Alone"
+        result = hw3.population_by_ethnicity(counties, ethnicity)
+        expected = 609.345
+        self.assertAlmostEqual(result, expected)
+
+    def test_population_by_ethnicity_2(self):
+        counties = reduced_data
+        ethnicity = "Asian Alone"
+        result = hw3.population_by_ethnicity(counties, ethnicity)
+        expected = 41181.3160000000000000000000
+        self.assertAlmostEqual(result, expected)
     # test population_below_poverty_level
+    def test_population_below_poverty_level_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        pov_level = "Persons Below Poverty Level"
+        result = hw3.population_below_poverty_level(counties, pov_level)
+        expected = 6702.795
+        self.assertAlmostEqual(result, expected)
+
+    def test_population_below_poverty_level_2(self):
+        counties = reduced_data
+        pov_level = "Persons Below Poverty Level"
+        result = hw3.population_below_poverty_level(counties, pov_level)
+        expected = 107711.7140000000000000000000
+        self.assertAlmostEqual(result, expected)
 
     # Part 4
-    # test percent_by_education
-    # test percent_by_ethnicity
-    # test percent_below_poverty_level
+    def test_percent_by_education_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ed_level = "High School or Higher"
+        result = hw3.percent_by_education(counties, ed_level)
+        expected = .856
+        self.assertAlmostEqual(result, expected)
+
+    def test_percent_by_education_2(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ed_level = "Grad School"
+        result = hw3.percent_by_education(counties, ed_level)
+        expected = 0
+        self.assertAlmostEqual(result, expected)
+
+    def test_percent_by_ethnicity_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ethnicity = "Hispanic or Latino"
+        result = hw3.percent_by_ethnicity(counties, ethnicity)
+        expected = .027
+        self.assertAlmostEqual(result, expected)
+
+    def test_percent_by_ethnicity_2(self):
+        counties = reduced_data
+        ethnicity = "Asian Alone"
+        result = hw3.percent_by_ethnicity(counties, ethnicity)
+        expected = 41181.3160000000000000000000 / 655813
+        self.assertAlmostEqual(result, expected)
+
+    def test_percent_below_poverty_level_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        pov_level = "Persons Below Poverty Level"
+        result = hw3.percent_below_poverty_level(counties, pov_level)
+        expected = .121
+        self.assertAlmostEqual(result, expected)
+
+    def test_percent_below_poverty_level_2(self):
+        counties = reduced_data
+        pov_level = "Persons Below Poverty Level"
+        result = hw3.percent_below_poverty_level(counties, pov_level)
+        expected = .1642415
+        self.assertAlmostEqual(result, expected)
 
     # Part 5
     # test education_greater_than
+    def test_education_greater_than_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ed_level = 'High School or Higher'
+        threshold = 80
+        result = hw3.education_greater_than(counties, ed_level, threshold)
+        expected = counties
+        self.maxDiff = None
+        self.assertEqual(result, expected)
+
+    def test_education_greater_than_2(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ed_level = 'High School or Higher'
+        threshold = 90
+        result = hw3.education_greater_than(counties, ed_level, threshold)
+        expected = []
+        self.maxDiff = None
+        self.assertEqual(result, expected)
+
     # test education_less_than
+    def test_education_less_than_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ed_level = 'High School or Higher'
+        threshold = 80
+        result = hw3.education_less_than(counties, ed_level, threshold)
+        expected = []
+        self.maxDiff = None
+        self.assertEqual(result, expected)
+
+    def test_education_less_than_2(self):
+        counties = reduced_data
+        ed_level = 'High School or Higher'
+        threshold = 85
+        result = hw3.education_less_than(counties, ed_level, threshold)
+        expected = [reduced_data[1], reduced_data[3], reduced_data[5]]
+        self.maxDiff = None
+        self.assertEqual(result, expected)
+
     # test ethnicity_greater_than
+    def test_ethnicity_greater_than_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        ethnicity = 'Hispanic or Latino'
+        threshold = 50
+        result = hw3.ethnicity_greater_than(counties, ethnicity, threshold)
+        expected = []
+        self.assertEqual(result, expected)
+
+    def test_ethnicity_greater_than_2(self):
+        counties = reduced_data
+        ethnicity = 'Hispanic or Latino'
+        threshold = 20
+        result = hw3.ethnicity_greater_than(counties, ethnicity, threshold)
+        expected = [reduced_data[2], reduced_data[3]]
+        self.assertEqual(result, expected)
+
     # test ethnicity_less_than
+    def test_ethnicity_less_than_1(self):
+        counties = reduced_data
+        ethnicity = 'Asian Alone'
+        threshold = 1
+        result = hw3.ethnicity_less_than(counties, ethnicity, threshold)
+        expected = [reduced_data[4], reduced_data[5], reduced_data[6]]
+        self.assertEqual(result, expected)
+
+    def test_ethnicity_less_than_2(self):
+        counties = reduced_data
+        ethnicity = 'White Alone'
+        threshold = 80
+        result = hw3.ethnicity_less_than(counties, ethnicity, threshold)
+        expected = [reduced_data[0], reduced_data[2], reduced_data[3]]
+
     # test below_poverty_level_greater_than
+    def test_below_poverty_level_greater_than_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        pov_level = "Persons Below Poverty Level"
+        threshold = 20
+        result = hw3.below_poverty_greater_than(counties, pov_level, threshold)
+        expected = []
+        self.assertEqual(result, expected)
+
+    def test_below_poverty_level_greater_than_2(self):
+        counties = reduced_data
+        pov_level = "Persons Below Poverty Level"
+        threshold = 20
+        result = hw3.below_poverty_greater_than(counties, pov_level, threshold)
+        expected = [reduced_data[1]]
+        self.assertEqual(result, expected)
+
     # test below_poverty_level_less_than
+    def test_below_poverty_level_less_than_1(self):
+        counties = [
+            data.CountyDemographics(
+                {'Percent 65 and Older': 13.8,
+                 'Percent Under 18 Years': 25.2,
+                 'Percent Under 5 Years': 6.0},
+                'Autauga County',
+                {"Bachelor's Degree or Higher": 20.9,
+                 'High School or Higher': 85.6},
+                {'American Indian and Alaska Native Alone': 0.5,
+                 'Asian Alone': 1.1,
+                 'Black Alone': 18.7,
+                 'Hispanic or Latino': 2.7,
+                 'Native Hawaiian and Other Pacific Islander Alone': 0.1,
+                 'Two or More Races': 1.8,
+                 'White Alone': 77.9,
+                 'White Alone, not Hispanic or Latino': 75.6},
+                {'Per Capita Income': 24571,
+                 'Persons Below Poverty Level': 12.1,
+                 'Median Household Income': 53682},
+                {'2010 Population': 54571,
+                 '2014 Population': 55395,
+                 'Population Percent Change': 1.5,
+                 'Population per Square Mile': 91.8},
+                'AL')]
+        pov_level = "Persons Below Poverty Level"
+        threshold = 10
+        result = hw3.below_poverty_less_than(counties, pov_level, threshold)
+        expected = []
+        self.assertEqual(result, expected)
 
-
+    def test_below_poverty_level_less_than_2(self):
+        counties = reduced_data
+        pov_level = "Persons Below Poverty Level"
+        threshold = 15
+        result = hw3.below_poverty_less_than(counties, pov_level, threshold)
+        expected = [reduced_data[0], reduced_data[2], reduced_data[6]]
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
